@@ -2,7 +2,6 @@
 
 import { Bell, ChevronDown, CreditCard, DollarSign, Users } from 'lucide-react';
 import Link from 'next/link';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -11,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAuthRedirect } from '@/hooks/useAuthRedirect';
 import {
   Table,
   TableBody,
@@ -19,57 +19,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Spinner from '@/components/spinner';
 
-const transactions = [
-  {
-    id: '1',
-    type: 'Cobro exitoso',
-    date: '2024-01-09',
-    account: 'Luis González',
-    amount: '$50,000',
-  },
-  {
-    id: '2',
-    type: 'Cobro exitoso',
-    date: '2024-01-09',
-    account: 'Ana María Pérez',
-    amount: '$4,000',
-  },
-  {
-    id: '3',
-    type: 'En proceso',
-    date: '2024-01-09',
-    account: 'Ana María Pérez',
-    amount: '$30,000',
-  },
-];
+import Spinner from '@/components/spinner';
+import { transactionsApi } from '@/services/transaction';
 
 export default function Dashboard() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        console.log(`accessToken: ${accessToken}`);
-        if (!accessToken || accessToken === '' || accessToken === null) {
-          router.push('/login');
-          return;
-        }
-      } catch (error) {
-        console.error('Error checking auth:', error);
-        router.push('/login/phone');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, [router]);
+  const { isLoading } = useAuthRedirect();
 
   if (isLoading) {
     return (
@@ -194,7 +149,7 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {transactions.map(transaction => (
+                    {transactionsApi.transactions.map(transaction => (
                       <TableRow key={transaction.id}>
                         <TableCell>{transaction.type}</TableCell>
                         <TableCell>{transaction.date}</TableCell>

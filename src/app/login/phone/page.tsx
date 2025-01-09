@@ -6,30 +6,19 @@ import { validatePhoneNumber } from '@/lib/validatePhoneNumber';
 import { ErrorMessage } from '@/components/errorMessage';
 import { PhoneInputField } from '@/components/phoneInput';
 import { ArrowRight } from 'lucide-react';
+import usePhoneNumber from '@/hooks/usePhoneNumber';
 
 const PhoneInput = () => {
   const router = useRouter();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [error, setError] = useState('');
-
-  const handlePhoneChange = (value: string) => {
-    setPhoneNumber(value);
-    setError('');
-  };
+  const { phoneNumber, error, handlePhoneChange, validateAndSubmit } =
+    usePhoneNumber();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!phoneNumber) {
-      setError('Por favor ingresa un número de teléfono');
-      return;
+    if (validateAndSubmit(phoneNumber)) {
+      router.push(`/login/verify?phone=${phoneNumber}`);
     }
-
-    if (!validatePhoneNumber(phoneNumber)) {
-      setError('Ingresa un número válido en formato: +57 XXX XXX XXXX');
-      return;
-    }
-    router.push(`/login/verify?phone=${phoneNumber}`);
   };
 
   return (
