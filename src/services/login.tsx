@@ -2,9 +2,11 @@ type responseAPI = {
   success: boolean;
   accesToken: string;
   refreshToken?: string;
+  code: number;
 };
 export const loginEndpoint = async (code: number): Promise<responseAPI> => {
   try {
+    // Uncomment this code when you have a backend
     // const response = await fetch('/BACKEND_URL/login ', {
     //   method: 'POST',
     //   headers: {
@@ -17,6 +19,7 @@ export const loginEndpoint = async (code: number): Promise<responseAPI> => {
     // Simulate a request
     new Promise(promise => setTimeout(promise, 2000));
     return {
+      code,
       success: true,
       accesToken:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMjM0NTY3ODkwIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2ODM2Njg4MDAsImV4cCI6MTY4MzY3MDAwMH0.cNqKbVXlVZkk_sKZ1Tk_kIrmr1HpAnk8y2Gc8x_o7Sc',
@@ -26,9 +29,10 @@ export const loginEndpoint = async (code: number): Promise<responseAPI> => {
   } catch (error) {
     console.log(error);
     return {
+      code,
       success: false,
       accesToken: '',
-      refreshToken:''
+      refreshToken: '',
     };
   }
 };

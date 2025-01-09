@@ -4,13 +4,7 @@ import { Bell, ChevronDown, CreditCard, DollarSign, Users } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -85,10 +79,6 @@ export default function Dashboard() {
     );
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    router.push('/login/phone');
-  };
   return (
     <div className="flex min-h-screen flex-col">
       <header className="border-b">

@@ -1,15 +1,10 @@
 'use client';
-import { useState } from 'react';
-import { MessageCircle, Timer, ArrowRight } from 'lucide-react';
+import { useState, Suspense } from 'react';
+import { MessageCircle, ArrowRight } from 'lucide-react';
 import TimerComp from '@/components/timer';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { loginEndpoint } from '@/services/login';
-import { access } from 'fs';
 import LoadingScreen from '@/components/loadingScreenToken';
-
-type SearchParams = {
-  phone: string;
-};
 
 type Phone = {
   0: string;
@@ -18,7 +13,7 @@ type Phone = {
   3: string;
 };
 
-const VerificationCode = () => {
+function VerificationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const phoneParam = searchParams.get('phone') || '';
@@ -40,7 +35,7 @@ const VerificationCode = () => {
     }
     setLoading(true);
 
-    const { accesToken, success, refreshToken } = await loginEndpoint(
+    const { accesToken, refreshToken } = await loginEndpoint(
       Number(Object.values(phone).join('')),
     );
 
@@ -125,6 +120,12 @@ const VerificationCode = () => {
       </div>
     </div>
   );
-};
+}
 
-export default VerificationCode;
+export default function VerificationPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerificationContent />
+    </Suspense>
+  );
+}
