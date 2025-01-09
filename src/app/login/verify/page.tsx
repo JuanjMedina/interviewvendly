@@ -47,12 +47,12 @@ const VerificationCode = () => {
     setLoading(false);
 
     if (accesToken && refreshToken) {
-      router.push('/dashboard');
       localStorage.setItem('accessToken', accesToken);
       localStorage.setItem('refreshToken', refreshToken);
+      router.push('/dashboard');
+      return;
     }
 
-    localStorage.setItem('accessToken', '');
     setError('Código inválido');
   };
 
