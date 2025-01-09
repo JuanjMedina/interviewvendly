@@ -55,6 +55,7 @@ function VerificationContent() {
 
       setError('Código inválido');
     } catch (error) {
+      console.log(error);
       setError('Hubo un problema al procesar la solicitud');
     } finally {
       setLoading(false);

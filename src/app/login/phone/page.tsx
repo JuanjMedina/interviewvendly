@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import { validatePhoneNumber } from '@/lib/validatePhoneNumber';
 import { ErrorMessage } from '@/components/errorMessage';
 import { PhoneInputField } from '@/components/phoneInput';
 import { ArrowRight } from 'lucide-react';

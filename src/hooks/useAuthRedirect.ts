@@ -15,6 +15,7 @@ export const useAuthRedirect = () => {
           return;
         }
       } catch (error) {
+        console.log(error);
         router.push('/login/phone');
       } finally {
         setIsLoading(false);
